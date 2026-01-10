@@ -1,0 +1,102 @@
+h1{
+    color:rgb(255, 255, 255);
+    font-size: 90px;
+        font-family: Arial, Helvetica, sans-serif;
+
+    
+}
+a{
+    font-size: 25px;
+    color:rgb(255, 204, 204)
+    
+}
+h4{
+    height: 40px;
+    background-color: rgb(168, 168, 168);
+    padding-top:20px;
+    text-align: left;
+    padding: right 40px;
+    padding-left:40px;
+    font-family: Arial, Helvetica, sans-serif;
+    color:rgb(255, 255, 255);
+    
+    
+    
+}
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.href{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+
+    padding-right: 40px;
+    padding-left:40px;
+    padding-top:20px;
+    padding-bottom:20px;
+    color:rgb(255, 255, 255);
+}
+body {
+  background-color: #000000; /* Серый */
+}
+
+h3{
+    color:white ;
+}
+
+.game-container {
+  display: flex;
+  justify-content: space-between; /* ← Лево, центр, право */
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.game-block {
+  width: 30%; /* Можно менять */
+}
+h5{
+    color:white;
+}
+h2{
+    color: rgb(255, 255, 255);
+    font-size: 40px;
+        font-family: Arial, Helvetica, sans-serif;
+
+}
+.roblox{
+    width: 125px; ;
+    height: 150px;
+}
+.fof{
+      width: 500px; ;
+    height: 500px; 
+}
+.ok{
+    width:700px ;
+    height: 400px;
+    padding-top: 0px;
+    padding-left: 100px;
+}
+.ko{
+    padding-top: 6=0px;
+    padding-right: 100px;
+    width:700px ;
+    height: 800px;
+    padding-left: 100px;
+}
+h6{
+    color:rgb(165, 165, 165);
+}
+p{
+    color:#000000
+}
+.f3{
+    font-size: 120px;
+}
+.game{
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 50px;
+    padding-top: 60px;
+}
