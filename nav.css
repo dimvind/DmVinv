@@ -1,0 +1,167 @@
+/* Мобильное меню: на узком экране — бренд + «гамбургер», ссылки в выпадающей панели */
+
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: linear-gradient(#6f00ff, #cc00ff);
+}
+
+.site-header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.site-brand {
+    flex-shrink: 0;
+    font-size: clamp(1.1rem, 3.5vw, 1.75rem);
+    padding: 0.35rem 0.5rem !important;
+}
+
+.site-nav-toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.site-nav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 6px;
+}
+
+.site-nav-burger:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.site-nav-burger span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    margin: 0 auto;
+    background: aliceblue;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.site-nav-panel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.site-nav-panel li {
+    display: inline-flex;
+}
+
+.site-nav-panel a {
+    display: inline-block;
+}
+
+@media (min-width: 992px) {
+    .site-nav-burger {
+        display: none !important;
+    }
+
+    .site-nav-panel {
+        position: static;
+        flex: 0 1 auto;
+        max-height: none !important;
+        overflow: visible !important;
+        background: transparent;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 991px) {
+    .site-header-inner {
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .site-nav-burger {
+        display: flex;
+    }
+
+    .site-nav-panel {
+        flex: 1 1 100%;
+        order: 3;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(180deg, #6f00ff 0%, #8b19d4 55%, #6a0dad 100%);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+
+    .site-nav-toggle:checked ~ .site-nav-panel {
+        max-height: min(85vh, 560px);
+    }
+
+    .site-nav-panel ul {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.35rem 0 1rem;
+    }
+
+    .site-nav-panel li {
+        display: block;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .site-nav-panel li:last-child {
+        border-bottom: none;
+    }
+
+    .site-nav-panel a {
+        padding: 0.65rem 1rem !important;
+        font-size: clamp(1rem, 4vw, 1.35rem) !important;
+    }
+
+    .site-nav-toggle:checked ~ .site-nav-burger span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .site-nav-toggle:checked ~ .site-nav-burger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .site-nav-toggle:checked ~ .site-nav-burger span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+}
+
+/* Отступ под фиксированную шапку */
+body {
+    padding-top: 5.25rem;
+}
