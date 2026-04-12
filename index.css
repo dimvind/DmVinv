@@ -477,18 +477,18 @@ input:checked+label {
 .block {
     border: 3px;
     overflow: hidden;
-    background: #6f00ff;
+    background: #ff73ec;
 }
 
 .block div {
-    animation: running-text 6s linear infinite;
+    animation: running-text 15s linear infinite;
 }
 
 .text {
     padding: 5px;
     color: #3e2943;
     text-align: center;
-    font-size: 50px;
+    font-size: 30px;
 }
 
 @keyframes running-text {
@@ -588,4 +588,20 @@ input:checked+label {
     background-repeat: no-repeat;
     background-size: cover;
     filter: brightness(50%);
+}
+
+
+
+.blockk {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.blockk img {
+  height: auto;
+}
+
+.text {
+  max-width: 800px;
 }
