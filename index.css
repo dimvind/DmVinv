@@ -605,3 +605,12 @@ input:checked+label {
 .text {
   max-width: 800px;
 }
+
+.black{
+    background-color: #202020;
+    color:aliceblue
+}
+.roblox{
+    padding-bottom: 10px;
+    padding-top: 20px;
+}
