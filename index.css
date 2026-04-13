@@ -614,3 +614,88 @@ input:checked+label {
     padding-bottom: 10px;
     padding-top: 20px;
 }
+
+.gamm{
+box-shadow: 0 0 20px 5px rgba(245, 72, 72, 0.7); /* Цвет морской волны */
+}
+
+.rbutton{
+padding-top: 300px;
+    color: #fff;
+  font-size: 40px;
+  text-align: center;
+  color: #fff; /* Белый цвет текста (центр лампы) */
+  font-size: 40px;
+  font-weight: bold;
+  /* Несколько слоев тени для объема */
+  text-shadow: 
+    0 0 7px #fff,
+    0 0 10px rgb(17, 0, 255),
+    0 0 21px rgb(38, 0, 255),
+    0 0 42px rgb(212, 0, 255);
+}
+
+
+/* Основной контейнер */
+.faq-item {
+  border-bottom: 1px solid #444;
+  color: #ffffff;
+  max-width: 100%;
+  padding-left: 700px;
+  padding-right: 700px;
+}
+
+/* Скрываем чекбокс */
+.faq-toggle {
+  display: none;
+}
+
+/* Заголовок (вместо summary) */
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+}
+
+/* Плюсик */
+.icon {
+  font-size: 24px;
+  color: #a00b2d;
+  transition: transform 0.4s ease; /* Плавный поворот */
+}
+
+/* Магия плавного раскрытия через Grid */
+.faq-content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr; /* Изначально высота 0 */
+  transition: grid-template-rows 0.4s ease; /* Плавность открытия */
+  overflow: hidden;
+}
+
+.faq-content {
+  min-height: 0;
+}
+
+/* Состояние при клике (когда чекбокс активен) */
+.faq-toggle:checked ~ .faq-content-wrapper {
+  grid-template-rows: 1fr; /* Раскрываем до полной высоты контента */
+}
+
+.faq-toggle:checked ~ .faq-header .icon {
+  transform: rotate(45deg); /* Поворот плюсика */
+}
+
+/* Отступы для текста внутри */
+.faq-content p {
+  padding-bottom: 20px;
+  margin: 0;
+  color: #ffffff;
+}
+img{
+ padding-bottom: 10px;
+ padding-top: 10px;
+}
