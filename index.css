@@ -256,6 +256,8 @@ header {
     width: 100%;
     background: linear-gradient(#6f00ff, #cc00ff);
     z-index: 1000;
+    
+  
 }
 
 html {
@@ -268,6 +270,10 @@ html {
 
 .secret {
     color: #000000
+}
+
+.glass{
+    background: rgba(0, 0, 0, 0.2); 
 }
 
 
@@ -607,8 +613,13 @@ input:checked+label {
 }
 
 .black{
-    background-color: #202020;
+    background-color: #1b1b1b;
     color:aliceblue
+}
+.black :hover{
+    background-color: #424242;
+    color:aliceblue;
+    transition: transform 0.5s ease;
 }
 .roblox{
     padding-bottom: 10px;
@@ -698,4 +709,10 @@ padding-top: 300px;
 img{
  padding-bottom: 10px;
  padding-top: 10px;
+}
+
+
+.img :hover{
+  size: 150%;
+  transition: transform 0.5s ease;
 }

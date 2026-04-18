@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Key Messenger Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #0b1220;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #334155;
+      --accent: #22c55e;
+      --accent-2: #16a34a;
+      --danger: #ef4444;
+      --warning-bg: #3b2a0a;
+      --warning-border: #92400e;
+      --warning-text: #fde68a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0b1220, #111827);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hidden { display: none !important; }
+
+    .card {
+      background: rgba(17, 24, 39, 0.97);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+    }
+
+    p {
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 16px;
+      min-height: calc(100vh - 40px);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 11px 12px;
+      margin: 6px 0;
+      font-size: 14px;
+    }
+
+    textarea { resize: vertical; }
+
+    button {
+      border: none;
+      cursor: pointer;
+      background: var(--accent-2);
+      font-weight: 700;
+    }
+
+    button.secondary {
+      background: #334155;
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    .warning-box {
+      border: 1px solid var(--warning-border);
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border-radius: 16px;
+      padding: 14px;
+      white-space: pre-wrap;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+
+    .section {
+      margin-top: 18px;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 190px;
+      overflow: auto;
+      margin-top: 8px;
+      padding-right: 2px;
+    }
+
+    .item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    .item.active {
+      outline: 2px solid var(--accent);
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-wrap {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 40px);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      padding-right: 4px;
+      min-height: 360px;
+      max-height: 65vh;
+    }
+
+    .message {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 12px;
+    }
+
+    .message.me {
+      border-color: #166534;
+    }
+
+    .message-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #132033;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .small-note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 950px) {
+      .auth-grid, .app-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-wrap {
+        min-height: auto;
+      }
+
+      .chat-messages {
+        max-height: 50vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="authView" class="card">
+      <h1>Key Messenger Demo</h1>
+      <p class="muted">
+        Это одностраничный HTML-прототип. Он хранит данные в localStorage в браузере.
+        Для настоящего онлайн-мессенджера с разными людьми и реальной безопасностью нужен сервер.
+      </p>
+
+      <div class="auth-grid">
+        <div class="card">
+          <h2>Регистрация</h2>
+          <p class="muted">Создаётся 2 ключа: публичный для добавления и секретный для входа.</p>
+          <input id="registerName" placeholder="Введите имя" />
+          <button onclick="registerUser()">Создать аккаунт</button>
+          <div id="registerResult"></div>
+        </div>
+
+        <div class="card">
+          <h2>Вход</h2>
+          <input id="loginPublicId" placeholder="Публичный ключ / publicId" />
+          <input id="loginSecretKey" placeholder="Секретный ключ / secretKey" />
+          <button onclick="loginUser()">Войти</button>
+          <p class="small-note">Secret key нельзя публиковать. Он нужен только владельцу аккаунта.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="appView" class="app-grid hidden">
+      <div class="card">
+        <h2>Профиль</h2>
+        <div id="meBox" class="muted">Загрузка...</div>
+        <button class="danger" onclick="logoutUser()">Выйти</button>
+
+        <div class="section">
+          <h3>Добавить контакт</h3>
+          <input id="contactPublicId" placeholder="Введите publicId пользователя" />
+          <button onclick="addContact()">Добавить контакт</button>
+        </div>
+
+        <div class="section">
+          <h3>Контакты</h3>
+          <div id="contactsList" class="list"></div>
+        </div>
+
+        <div class="section">
+          <h3>Личные чаты</h3>
+          <div id="directChatsList" class="list"></div>
+        </div>
+
+        <div class="section">
+          <h3>Создание группы</h3>
+          <input id="groupName" placeholder="Название группы" />
+          <textarea id="groupMembers" rows="4" placeholder="publicId участников через запятую"></textarea>
+          <button onclick="createGroup()">Создать группу</button>
+        </div>
+
+        <div class="section">
+          <h3>Группы</h3>
+          <div id="groupsList" class="list"></div>
+        </div>
+      </div>
+
+      <div class="card chat-wrap">
+        <h2 id="chatTitle">Выберите чат</h2>
+        <div id="chatMeta" class="muted">Личные сообщения и группы доступны после выбора чата.</div>
+        <div id="messagesBox" class="chat-messages"></div>
+        <textarea id="messageInput" rows="4" placeholder="Введите сообщение"></textarea>
+        <div class="row">
+          <button onclick="sendMessage()">Отправить</button>
+          <button class="secondary" onclick="refreshApp()">Обновить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'key_messenger_demo_v1';
+    let state = loadState();
+    let currentUserId = state.currentUserId || null;
+    let currentChat = null; // {type:'direct'|'group', id:number}
+
+    function defaultState() {
+      return {
+        users: [],
+        contacts: [],
+        directChats: [],
+        groups: [],
+        messages: [],
+        currentUserId: null
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const parsed = JSON.parse(raw);
+        return {
+          users: Array.isArray(parsed.users) ? parsed.users : [],
+          contacts: Array.isArray(parsed.contacts) ? parsed.contacts : [],
+          directChats: Array.isArray(parsed.directChats) ? parsed.directChats : [],
+          groups: Array.isArray(parsed.groups) ? parsed.groups : [],
+          messages: Array.isArray(parsed.messages) ? parsed.messages : [],
+          currentUserId: parsed.currentUserId || null
+        };
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      state.currentUserId = currentUserId;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function uid(prefix = 'id') {
+      return prefix + '_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+
+    function makePublicId() {
+      return 'u_' + Math.random().toString(36).slice(2, 10);
+    }
+
+    function makeSecretKey() {
+      return Array.from({ length: 4 }, () => Math.random().toString(36).slice(2, 6)).join('-');
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    async function sha256(text) {
+      const data = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function nowIso() {
+      return new Date().toISOString();
+    }
+
+    function getCurrentUser() {
+      return state.users.find(u => u.id === currentUserId) || null;
+    }
+
+    function findUserByPublicId(publicId) {
+      return state.users.find(u => u.publicId === publicId) || null;
+    }
+
+    function sortPair(a, b) {
+      return a < b ? [a, b] : [b, a];
+    }
+
+    async function registerUser() {
+      const name = document.getElementById('registerName').value.trim();
+      if (!name) {
+        alert('Введите имя');
+        return;
+      }
+
+      let publicId = makePublicId();
+      while (findUserByPublicId(publicId)) {
+        publicId = makePublicId();
+      }
+
+      const secretKey = makeSecretKey();
+      const secretHash = await sha256(secretKey);
+
+      const user = {
+        id: uid('user'),
+        displayName: name,
+        publicId,
+        secretHash,
+        createdAt: nowIso()
+      };
+
+      state.users.push(user);
+      currentUserId = user.id;
+      saveState();
+
+      document.getElementById('registerResult').innerHTML =
+        '<div class="warning-box">' +
+        'Аккаунт создан. Сохраните эти данные:\n\n' +
+        'Имя: ' + escapeHtml(name) + '\n' +
+        'Public ID: ' + escapeHtml(publicId) + '\n' +
+        'Secret Key: ' + escapeHtml(secretKey) + '\n\n' +
+        'Secret Key показывается только сейчас. Никому его не отправляйте.' +
+        '</div>';
+
+      document.getElementById('registerName').value = '';
+      refreshApp();
+    }
+
+    async function loginUser() {
+      const publicId = document.getElementById('loginPublicId').value.trim();
+      const secretKey = document.getElementById('loginSecretKey').value.trim();
+
+      const user = findUserByPublicId(publicId);
+      if (!user) {
+        alert('Неверный publicId или secretKey');
+        return;
+      }
+
+      const secretHash = await sha256(secretKey);
+      if (user.secretHash !== secretHash) {
+        alert('Неверный publicId или secretKey');
+        return;
+      }
+
+      currentUserId = user.id;
+      saveState();
+      document.getElementById('loginPublicId').value = '';
+      document.getElementById('loginSecretKey').value = '';
+      refreshApp();
+    }
+
+    function logoutUser() {
+      currentUserId = null;
+      currentChat = null;
+      saveState();
+      refreshApp();
+    }
+
+    function renderMe() {
+      const me = getCurrentUser();
+      const box = document.getElementById('meBox');
+      if (!me) {
+        box.textContent = 'Не выполнен вход';
+        return;
+      }
+
+      box.innerHTML =
+        '<div><b>' + escapeHtml(me.displayName) + '</b></div>' +
+        '<div class="pill">Ваш publicId: ' + escapeHtml(me.publicId) + '</div>' +
+        '<p class="small-note">Этот ключ можно давать другим, чтобы они добавили вас в контакты.</p>';
+    }
+
+    function addContact() {
+      const me = getCurrentUser();
+      if (!me) return;
+
+      const publicId = document.getElementById('contactPublicId').value.trim();
+      if (!publicId) {
+        alert('Введите publicId');
+        return;
+      }
+
+      const target = findUserByPublicId(publicId);
+      if (!target) {
+        alert('Пользователь не найден');
+        return;
+      }
+
+      if (target.id === me.id) {
+        alert('Нельзя добавить самого себя');
+        return;
+      }
+
+      const existsA = state.contacts.some(c => c.ownerId === me.id && c.contactId === target.id);
+      if (!existsA) {
+        state.contacts.push({ id: uid('contact'), ownerId: me.id, contactId: target.id, createdAt: nowIso() });
+      }
+
+      const existsB = state.contacts.some(c => c.ownerId === target.id && c.contactId === me.id);
+      if (!existsB) {
+        state.contacts.push({ id: uid('contact'), ownerId: target.id, contactId: me.id, createdAt: nowIso() });
+      }
+
+      const [a, b] = sortPair(me.id, target.id);
+      const chatExists = state.directChats.some(chat => chat.userAId === a && chat.userBId === b);
+      if (!chatExists) {
+        state.directChats.push({
+          id: Date.now() + Math.floor(Math.random() * 10000),
+          userAId: a,
+          userBId: b,
+          createdAt: nowIso()
+        });
+      }
+
+      document.getElementById('contactPublicId').value = '';
+      saveState();
+      refreshApp();
+    }
+
+    function createGroup() {
+      const me = getCurrentUser();
+      if (!me) return;
+
+      const name = document.getElementById('groupName').value.trim();
+      if (!name) {
+        alert('Введите название группы');
+        return;
+      }
+
+      const memberPublicIds = document.getElementById('groupMembers').value
+        .split(',')
+        .map(v => v.trim())
+        .filter(Boolean);
+
+      const memberIds = [me.id];
+      for (const publicId of memberPublicIds) {
+        const user = findUserByPublicId(publicId);
+        if (user && !memberIds.includes(user.id)) {
+          memberIds.push(user.id);
+        }
+      }
+
+      const group = {
+        id: Date.now() + Math.floor(Math.random() * 10000),
+        name,
+        ownerId: me.id,
+        memberIds,
+        createdAt: nowIso()
+      };
+
+      state.groups.push(group);
+      document.getElementById('groupName').value = '';
+      document.getElementById('groupMembers').value = '';
+      saveState();
+      refreshApp();
+    }
+
+    function getContactsForCurrentUser() {
+      const me = getCurrentUser();
+      if (!me) return [];
+      return state.contacts
+        .filter(c => c.ownerId === me.id)
+        .map(c => state.users.find(u => u.id === c.contactId))
+        .filter(Boolean)
+        .sort((a, b) => a.displayName.localeCompare(b.displayName, 'ru'));
+    }
+
+    function getDirectChatsForCurrentUser() {
+      const me = getCurrentUser();
+      if (!me) return [];
+
+      return state.directChats
+        .filter(chat => chat.userAId === me.id || chat.userBId === me.id)
+        .map(chat => {
+          const peerId = chat.userAId === me.id ? chat.userBId : chat.userAId;
+          const peer = state.users.find(u => u.id === peerId);
+          return { ...chat, peer };
+        })
+        .filter(chat => chat.peer)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    function getGroupsForCurrentUser() {
+      const me = getCurrentUser();
+      if (!me) return [];
+      return state.groups
+        .filter(group => group.memberIds.includes(me.id))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    function renderContacts() {
+      const box = document.getElementById('contactsList');
+      const contacts = getContactsForCurrentUser();
+      box.innerHTML = contacts.length
+        ? contacts.map(user =>
+            '<div class="item"><b>' + escapeHtml(user.displayName) + '</b><div class="muted">' + escapeHtml(user.publicId) + '</div></div>'
+          ).join('')
+        : '<div class="muted">Контактов пока нет</div>';
+    }
+
+    function renderDirectChats() {
+      const box = document.getElementById('directChatsList');
+      const chats = getDirectChatsForCurrentUser();
+      box.innerHTML = chats.length
+        ? chats.map(chat =>
+            '<div class="item ' + (currentChat && currentChat.type === 'direct' && currentChat.id === chat.id ? 'active' : '') + '" ' +
+            'onclick="openDirectChat(' + chat.id + ')">' +
+            '<b>' + escapeHtml(chat.peer.displayName) + '</b>' +
+            '<div class="muted">' + escapeHtml(chat.peer.publicId) + '</div>' +
+            '</div>'
+          ).join('')
+        : '<div class="muted">Личных чатов пока нет</div>';
+    }
+
+    function renderGroups() {
+      const box = document.getElementById('groupsList');
+      const groups = getGroupsForCurrentUser();
+      box.innerHTML = groups.length
+        ? groups.map(group =>
+            '<div class="item ' + (currentChat && currentChat.type === 'group' && currentChat.id === group.id ? 'active' : '') + '" ' +
+            'onclick="openGroupChat(' + group.id + ')">' +
+            '<b>' + escapeHtml(group.name) + '</b>' +
+            '<div class="muted">Участников: ' + group.memberIds.length + '</div>' +
+            '</div>'
+          ).join('')
+        : '<div class="muted">Групп пока нет</div>';
+    }
+
+    function openDirectChat(chatId) {
+      currentChat = { type: 'direct', id: chatId };
+      renderDirectChats();
+      renderGroups();
+      renderMessages();
+    }
+
+    function openGroupChat(groupId) {
+      currentChat = { type: 'group', id: groupId };
+      renderDirectChats();
+      renderGroups();
+      renderMessages();
+    }
+
+    function getCurrentChatMessages() {
+      const me = getCurrentUser();
+      if (!me || !currentChat) return [];
+
+      if (currentChat.type === 'direct') {
+        return state.messages
+          .filter(m => m.chatType === 'direct' && m.chatId === currentChat.id)
+          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      }
+
+      if (currentChat.type === 'group') {
+        return state.messages
+          .filter(m => m.chatType === 'group' && m.chatId === currentChat.id)
+          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      }
+
+      return [];
+    }
+
+    function renderMessages() {
+      const title = document.getElementById('chatTitle');
+      const meta = document.getElementById('chatMeta');
+      const box = document.getElementById('messagesBox');
+      const me = getCurrentUser();
+
+      if (!me || !currentChat) {
+        title.textContent = 'Выберите чат';
+        meta.textContent = 'Личные сообщения и группы доступны после выбора чата.';
+        box.innerHTML = '<div class="muted">Чат ещё не выбран</div>';
+        return;
+      }
+
+      if (currentChat.type === 'direct') {
+        const chat = state.directChats.find(c => c.id === currentChat.id);
+        if (!chat) {
+          box.innerHTML = '<div class="muted">Чат не найден</div>';
+          return;
+        }
+        const peerId = chat.userAId === me.id ? chat.userBId : chat.userAId;
+        const peer = state.users.find(u => u.id === peerId);
+        title.textContent = 'Личный чат: ' + (peer ? peer.displayName : 'Неизвестный пользователь');
+        meta.textContent = peer ? ('publicId: ' + peer.publicId) : 'Пользователь не найден';
+      } else {
+        const group = state.groups.find(g => g.id === currentChat.id);
+        if (!group) {
+          box.innerHTML = '<div class="muted">Группа не найдена</div>';
+          return;
+        }
+        title.textContent = 'Группа: ' + group.name;
+        meta.textContent = 'Участников: ' + group.memberIds.length;
+      }
+
+      const messages = getCurrentChatMessages();
+      box.innerHTML = messages.length
+        ? messages.map(msg => {
+            const sender = state.users.find(u => u.id === msg.senderId);
+            const isMe = msg.senderId === me.id;
+            return '<div class="message ' + (isMe ? 'me' : '') + '">' +
+              '<div class="message-meta">' +
+              escapeHtml(sender ? sender.displayName : 'Неизвестный') + ' • ' +
+              new Date(msg.createdAt).toLocaleString() +
+              '</div>' +
+              '<div>' + escapeHtml(msg.body) + '</div>' +
+            '</div>';
+          }).join('')
+        : '<div class="muted">Сообщений пока нет</div>';
+
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function sendMessage() {
+      const me = getCurrentUser();
+      if (!me) return;
+      if (!currentChat) {
+        alert('Сначала выберите чат');
+        return;
+      }
+
+      const input = document.getElementById('messageInput');
+      const body = input.value.trim();
+      if (!body) {
+        alert('Введите сообщение');
+        return;
+      }
+
+      if (currentChat.type === 'direct') {
+        const chat = state.directChats.find(c => c.id === currentChat.id);
+        if (!chat || (chat.userAId !== me.id && chat.userBId !== me.id)) {
+          alert('Чат недоступен');
+          return;
+        }
+      }
+
+      if (currentChat.type === 'group') {
+        const group = state.groups.find(g => g.id === currentChat.id);
+        if (!group || !group.memberIds.includes(me.id)) {
+          alert('Группа недоступна');
+          return;
+        }
+      }
+
+      state.messages.push({
+        id: uid('msg'),
+        chatType: currentChat.type,
+        chatId: currentChat.id,
+        senderId: me.id,
+        body,
+        createdAt: nowIso()
+      });
+
+      input.value = '';
+      saveState();
+      renderMessages();
+    }
+
+    function refreshApp() {
+      state = loadState();
+
+      const authView = document.getElementById('authView');
+      const appView = document.getElementById('appView');
+
+      if (currentUserId && getCurrentUser()) {
+        authView.classList.add('hidden');
+        appView.classList.remove('hidden');
+        renderMe();
+        renderContacts();
+        renderDirectChats();
+        renderGroups();
+        renderMessages();
+      } else {
+        currentUserId = null;
+        currentChat = null;
+        saveState();
+        authView.classList.remove('hidden');
+        appView.classList.add('hidden');
+      }
+    }
+
+    refreshApp();
+  </script>
+</body>
+</html>
