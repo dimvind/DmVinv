@@ -716,3 +716,48 @@ img{
   size: 150%;
   transition: transform 0.5s ease;
 }
+
+body.rhyvdp {
+  background-color: #000000; /* Ваш исходный цвет */}
+  
+.rhyvdp:hover{
+transition: background 0.3s ease; /* Плавное появление */
+  
+  background-image: url('https://media1.tenor.com/m/LbwRPgeJrqkAAAAd/67-6-7.gif'); 
+  
+  /* Картинка будет повторяться (дублироваться), чтобы заполнить всё пространство */
+  background-repeat: repeat; 
+  
+  /* Здесь задайте нужный масштаб одной картинки (например, 100px или 10%) */
+  background-size: 300px auto; 
+  
+  /* Чтобы при скролле фон не уезжал (по желанию) */
+  background-attachment: fixed;
+}
+
+/* Фон затемнения */
+.popup-overlay {
+  display: none; /* Скрыто по умолчанию */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Само окно */
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 250px;
+}
+
+/* Класс для показа (добавляется через JS) */
+.popup-overlay.active {
+  display: flex;
+}
+

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DimChat</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.socket.io/4.8.0/socket.io.min.js"></script>
+</head>
+<body>
+  <div id="registerScreen" class="screen hidden">
+    <div class="center-wrap">
+      <div class="auth-shell">
+        <div class="auth-panel">
+          <button id="openHelpVideoBtn" type="button" class="auth-help-btn">?</button>
+          <div class="auth-form">
+            <h1 class="auth-title">Создай акк</h1>
+            <div class="avatar-stack">
+              <img id="registerAvatarPreview" class="avatar-preview" alt="avatar" />
+              <label class="upload-btn">Загрузить<input id="registerAvatar" type="file" accept="image/*" class="hidden" /></label>
+            </div>
+            <input id="registerName" class="field" placeholder="имя" />
+            <button id="registerBtn" type="button" class="primary-btn">СОЗДАТЬ!</button>
+            <div id="goLogin" class="switch-link">уже есть акк?</div>
+            <div id="authStatus" class="status-text"></div>
+          </div>
+        </div>
+        <div class="info-panel">
+          <div id="registerKeysCard" class="keys-box hidden">
+            <div id="keysText" class="keys-main"></div>
+            <div class="keys-note">они будут всегда отображаться в верхнем левом углу</div>
+            <button id="keysOkBtn" type="button" class="mini-btn">ок</button>
+          </div>
+          <div id="registerHint" class="keys-box">
+            <div class="keys-main">здесь после регистрации появятся<br />ключ доступа и пароль</div>
+            <div class="keys-note">пароль никому не показывай</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loginScreen" class="screen hidden">
+    <div class="center-wrap">
+      <div class="auth-shell">
+        <div class="auth-panel">
+          <div class="auth-form">
+            <h1 class="auth-title">Вход</h1>
+            <input id="loginPublicId" class="field" placeholder="ключ доступа" />
+            <input id="loginSecretKey" class="field" placeholder="пароль" />
+            <button id="loginBtn" type="button" class="primary-btn">ВОЙТИ</button>
+            <div id="goRegister" class="switch-link">создать акк?</div>
+            <div id="loginStatus" class="status-text"></div>
+          </div>
+        </div>
+        <div class="info-panel">
+          <div class="keys-box">
+            <div class="keys-main">без backend вход по старым данным недоступен</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="appScreen" class="screen hidden">
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-card sidebar-profile-row">
+          <span class="avatar-wrap"><img id="mobileSidebarAvatar" class="mini-avatar" alt="avatar" /><span id="mobileSidebarOnlineDot" class="online-dot hidden"></span></span>
+          <div class="mobile-key">ключ: <span id="mobileSidebarKey"></span></div>
+        </div>
+
+        <div class="sidebar-card">
+          <div id="publicInfo" class="public-title"></div>
+          <div id="showPasswordLink" class="small-link">посмотреть пароль</div>
+        </div>
+
+        <div class="sidebar-card">
+          <input id="searchInput" class="search-input" placeholder="поиск контактов и групп" />
+        </div>
+
+        <div id="contactList" class="list"></div>
+
+        <div class="sidebar-card plus-menu">
+          <button id="togglePlusMenu" class="plus-btn">+</button>
+          <div id="plusActions" class="plus-actions hidden">
+            <button id="openAddContact" class="secondary-btn">Добавить контакты</button>
+            <button id="openCreateGroup" class="secondary-btn group-btn">создать группу</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="card chat-head" id="chatHeadBtn">
+            <button id="mobileBackBtn" class="mobile-back-btn" type="button">←</button>
+            <span class="avatar-wrap"><img id="chatAvatar" class="mini-avatar big-avatar" alt="chat avatar" /><span id="chatOnlineDot" class="online-dot hidden"></span></span>
+            <div id="chatTitle" class="chat-title">Чат</div>
+          </div>
+
+          <div id="leaveChatBtn" class="card leave-box hidden">выйти из<br />группы</div>
+
+          <div class="card theme-box">
+            <button id="openSettingsBtn" type="button" class="settings-fab">⚙️</button>
+            <div id="themeText" class="theme-label">смена режима</div>
+            <button id="themeBtn" type="button" class="theme-btn">☾</button>
+          </div>
+        </div>
+
+        <div id="chatArea" class="card chat-area">
+          <div class="empty-state">Открой чат, чтобы общаться</div>
+        </div>
+
+        <div class="composer">
+          <label class="image-btn">+img<input id="messageImageInput" type="file" accept="image/*" class="hidden" /></label>
+          <button id="voiceRecordBtn" class="voice-btn" type="button">🎤</button>
+          <div class="composer-center">
+            <div id="replyPreview" class="reply-preview hidden"></div>
+            <div id="imagePreviewWrap" class="preview-image-wrap">
+              <img id="imagePreview" alt="preview" />
+              <div class="image-tools">
+                <button id="editImageBtn" class="tool-btn" type="button">✏️ ручка</button>
+                <button id="cropImageBtn" class="tool-btn" type="button">✂️ обрезать</button>
+                <button id="removePreviewImage" class="preview-remove" type="button">убрать</button>
+              </div>
+            </div>
+            <input id="messageInput" class="composer-input" placeholder="Написать сообщение" />
+          </div>
+          <button id="sendBtn" type="button" class="send-btn">➤</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="passwordModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Твой пароль</div>
+      <div id="passwordModalText" class="password-text"></div>
+      <button id="openChangePasswordBtn" type="button" class="secondary-btn space-bottom">сменить пароль</button>
+      <div class="modal-actions"><button id="closePasswordModal" type="button" class="secondary-btn">ок</button></div>
+    </div>
+  </div>
+
+  <div id="changePasswordModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Смена пароля</div>
+      <input id="oldPasswordInput" class="small-field" placeholder="старый пароль" />
+      <input id="newPasswordInput" class="small-field" placeholder="новый пароль" />
+      <input id="repeatNewPasswordInput" class="small-field" placeholder="повтори новый пароль" />
+      <div id="changePasswordStatus" class="status-text"></div>
+      <div class="modal-actions">
+        <button id="saveNewPasswordBtn" type="button" class="secondary-btn group-btn">сохранить</button>
+        <button id="cancelChangePasswordBtn" type="button" class="secondary-btn">отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addContactModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Добавить контакт</div>
+      <input id="addContactInput" class="small-field" placeholder="введи публичный ключ" />
+      <div class="modal-actions">
+        <button id="addContactConfirm" type="button" class="secondary-btn">добавить</button>
+        <button id="addContactCancel" type="button" class="secondary-btn">отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="groupModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Создать группу</div>
+      <div class="avatar-stack small">
+        <img id="groupAvatarPreview" class="avatar-preview small-avatar-preview" alt="group avatar" />
+        <label class="upload-btn full-width">Выбрать аватар группы<input id="groupAvatarInput" type="file" accept="image/*" class="hidden" /></label>
+      </div>
+      <input id="groupNameInput" class="small-field" placeholder="название группы" />
+      <textarea id="groupMembersInput" class="small-field group-members" placeholder="публичные ключи через запятую"></textarea>
+      <div class="modal-actions">
+        <button id="groupCreateConfirm" type="button" class="secondary-btn group-btn">создать</button>
+        <button id="groupCreateCancel" type="button" class="secondary-btn">отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="logoutModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Ты точно хочешь выйти из аккаунта?</div>
+      <div class="modal-text">Ты можешь потерять доступ к аккаунту.</div>
+      <div class="modal-actions">
+        <button id="logoutConfirm" type="button" class="secondary-btn danger-grad">да</button>
+        <button id="logoutCancel" type="button" class="secondary-btn">нет</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="logoutCodeModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Подтверждение выхода</div>
+      <div class="modal-text">Введи код <b>4821</b>, чтобы выйти из аккаунта.</div>
+      <input id="logoutCodeInput" class="small-field" placeholder="введи код" />
+      <div class="modal-actions">
+        <button id="logoutCodeConfirm" type="button" class="secondary-btn danger-grad">выйти</button>
+        <button id="logoutCodeCancel" type="button" class="secondary-btn">отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Настройки</div>
+      <div class="avatar-stack small">
+        <img id="settingsAvatarPreview" class="avatar-preview small-avatar-preview" alt="settings avatar" />
+      </div>
+      <input id="settingsNameInput" class="small-field" placeholder="новое имя" />
+      <label class="upload-btn full-width">Выбрать аватарку<input id="settingsAvatarInput" type="file" accept="image/*" class="hidden" /></label>
+      <button id="settingsToggleTheme" type="button" class="secondary-btn space-bottom">сменить тему</button>
+      <button id="openLogoutFlowFromSettings" type="button" class="secondary-btn danger-grad space-bottom">выйти из аккаунта</button>
+      <div class="modal-actions">
+        <button id="settingsSave" type="button" class="secondary-btn group-btn">сохранить</button>
+        <button id="settingsCancel" type="button" class="secondary-btn">отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="userProfileModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Профиль</div>
+      <div class="profile-view">
+        <span class="avatar-wrap"><img id="profileAvatar" class="avatar-preview profile-avatar-preview" alt="profile avatar" /><span id="profileOnlineDot" class="online-dot hidden"></span></span>
+        <div id="profileName" class="profile-name"></div>
+        <div id="profileStatus" class="profile-status"></div>
+        <div id="profileKey" class="profile-key"></div>
+        <div id="profileDate" class="profile-date"></div>
+        <div id="profileMembers" class="profile-members hidden"></div>
+      </div>
+      <div class="modal-actions"><button id="closeUserProfileModal" type="button" class="secondary-btn">закрыть</button></div>
+    </div>
+  </div>
+
+  <div id="imageEditorModal" class="modal hidden">
+    <div class="modal-card editor-card">
+      <div class="editor-topline">
+        <div class="modal-title no-margin">Редактирование изображения</div>
+        <button id="openEditorHelpVideoBtn" type="button" class="help-btn editor-help-btn hidden">?</button>
+      </div>
+      <div class="editor-layout">
+        <div class="editor-stage"><canvas id="editorCanvas"></canvas></div>
+        <div class="editor-tools">
+          <button id="editorDrawMode" class="secondary-btn" type="button">✏️ режим рисования</button>
+          <input id="editorColorPicker" type="color" value="#ff2d55" class="color-picker" />
+          <button id="editorCropFree" class="secondary-btn" type="button">✂️ свободная обрезка</button>
+          <button id="editorApplyCrop" class="secondary-btn" type="button">применить обрезку</button>
+          <button id="editorReset" class="secondary-btn" type="button">сбросить</button>
+          <button id="editorApply" class="secondary-btn group-btn" type="button">применить</button>
+          <button id="editorCancel" class="secondary-btn" type="button">отмена</button>
+          <div class="crop-help">В режиме обрезки тяни мышкой по изображению и выбери свою область.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="helpVideoModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Как пользоваться</div>
+      <video class="help-video" controls><source src="dimchat1.mp4" type="video/mp4" /></video>
+      <div class="modal-actions"><button id="closeHelpVideoModal" type="button" class="secondary-btn">закрыть</button></div>
+    </div>
+  </div>
+
+  <div id="editorHelpVideoModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Редактирование изображения</div>
+      <video class="help-video" controls><source src="dimchat2.mp4" type="video/mp4" /></video>
+      <div class="modal-actions"><button id="closeEditorHelpVideoModal" type="button" class="secondary-btn">закрыть</button></div>
+    </div>
+  </div>
+
+  <div id="voicePreviewModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-title">Прослушай голосовое</div>
+      <audio id="voicePreviewPlayer" controls class="voice-preview-player"></audio>
+      <div class="modal-actions">
+        <button id="voicePreviewSend" type="button" class="secondary-btn group-btn">отправить</button>
+        <button id="voicePreviewCancel" type="button" class="secondary-btn">отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

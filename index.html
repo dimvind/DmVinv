@@ -578,8 +578,63 @@ placeholder="+228 666 777 67" autocomplete="off">-->
     <a href="support.html">Поддержать меня</a>
        <p>Воу, ты нашёл пасхалку!</p>
     
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Поиск Roblox игрока</title>
+</head>
+<body>
+  <h2>Поиск игрока Roblox</h2>
 
+  <input id="playerId" type="text" placeholder="Введите ID игрока">
+  <button onclick="findPlayer()">Найти!</button>
 
+  <div id="result" style="margin-top: 20px;"></div>
+
+  <script>
+    async function findPlayer() {
+      const id = document.getElementById("playerId").value.trim();
+      const result = document.getElementById("result");
+
+      result.innerHTML = "";
+
+      if (id === "") {
+        alert("Введите ID игрока!");
+        return;
+      }
+
+      if (!/^\d+$/.test(id)) {
+        alert("ID должен состоять только из цифр!");
+        return;
+      }
+
+      const profileUrl = `https://www.roblox.com/users/${id}/profile`;
+
+      try {
+        const response = await fetch(`https://users.roblox.com/v1/users/${id}`);
+
+        if (!response.ok) {
+          result.innerHTML = "Игрок не найден.";
+          return;
+        }
+
+        const data = await response.json();
+
+        result.innerHTML = `
+          <h3>Ник игрока: ${data.name}</h3>
+          <p>Display Name: ${data.displayName}</p>
+          <button onclick="window.location.href='${profileUrl}'">
+            Перейти в профиль
+          </button>
+        `;
+      } catch (error) {
+        result.innerHTML = "Не удалось получить данные игрока.";
+      }
+    }
+  </script>
+</body>
+</html>
 
 
 

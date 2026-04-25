@@ -1,0 +1,15 @@
+.play{
+    background-color: rgb(92, 92, 255);
+    border-radius: 10%;
+    padding-right:1000px ;
+    
+}
+a {
+  text-decoration: none;
+  color: aliceblue
+}
+
+body{
+   background: linear-gradient(rgb(46, 0, 36), black );
+}
+

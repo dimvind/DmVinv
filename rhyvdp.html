@@ -4,7 +4,8 @@
 
 <title>BOOM - друг</title>
 <link rel="stylesheet" href="./index.css">
-    <body>
+<link rel="stylesheet" href="./js.js">
+    <body class="rhyvdp">
         <center><img class="im_g" "DmVinvDm2'.JPG"width="500px"</center> 
     <h2><a href="index.html">назад</a></h>
         <h1><center>BOOM(rhyvdp)🔥</center></h1>
@@ -16,8 +17,14 @@
  
 <center></center><img src="gh.gif"></center>
  
-    
+    <center><button onclick="playSound()">Six seven 67 67 67 67 67 Six seven 67 </button></center>
+<script>
+ function playSound(){
+    const audio = new Audio("67-gazan.mp3");
+    audio.play();
+ }
 
+</script>
   
   <center><h2>Любимые игры🎀:</h2></center>
       <center><a href="https://www.roblox.com/games/129279692364812/Nullscape">
@@ -76,7 +83,13 @@
 </center>
 
 <center><img class="roblox" src="фып.JPG"></center>
-
+<div id="autoPopup" class="popup-overlay">
+  <div class="popup-content">
+    <h3>Внимание!</h3>
+    <p>Это окно открывается каждые 15 секунд.</p>
+    <button onclick="closePopup()">Закрыть</button>
+  </div>
+</div>
 </body>
 
     </head>

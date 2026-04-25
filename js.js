@@ -23,3 +23,20 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 elements.forEach(el => observer.observe(el));
+
+
+
+const popup = document.getElementById('autoPopup');
+
+// Функция открытия
+function openPopup() {
+  popup.classList.add('active');
+}
+
+// Функция закрытия
+function closePopup() {
+  popup.classList.remove('active');
+}
+
+// Запускаем цикл: выполнять openPopup каждые 15000 миллисекунд (15 сек)
+setInterval(openPopup, 15000);
