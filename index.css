@@ -627,7 +627,7 @@ input:checked+label {
 }
 
 .gamm{
-box-shadow: 0 0 20px 5px rgba(245, 72, 72, 0.7); /* Цвет морской волны */
+box-shadow: 0 0 20px 5px rgba(255, 69, 115, 0.7); /* Цвет морской волны */
 }
 
 .rbutton{
@@ -675,7 +675,7 @@ padding-top: 300px;
 /* Плюсик */
 .icon {
   font-size: 24px;
-  color: #a00b2d;
+  color: #a00b49;
   transition: transform 0.4s ease; /* Плавный поворот */
 }
 
@@ -761,3 +761,24 @@ transition: background 0.3s ease; /* Плавное появление */
   display: flex;
 }
 
+
+img {
+  /* Начальное состояние */
+  transition: transform 0.6s ease; /* Настраиваем плавность */
+}
+
+img:hover {
+  /* Сдвигаем по вертикали на 10px вверх */
+  transform: translateY(-20px); 
+  box-shadow: 0 0 20px 5px rgba(127, 47, 255, 0.7); /* Цвет морской волны */
+
+}
+    
+
+
+.gamm:hover {
+  /* Сдвигаем по вертикали на 10px вверх */
+  transform: rotate(360deg)
+  box-shadow: 0 0 20px 5px rgba(127, 47, 255, 0.7); /* Цвет морской волны */
+
+}
