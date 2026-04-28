@@ -1,0 +1,83 @@
+body{
+ background:linear-gradient(white, rgb(206, 255, 206));font-family:Arial, Helvetica, sans-serif;   
+margin: 0;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    color: rgb(255, 255, 255);
+}
+header{
+
+    position: fixed;
+    background:white;
+ width: 100%;     }
+ul{
+    list-style: none;
+}
+h1{
+    text-decoration: none;
+text-align: center;
+padding-top: 10px;
+padding-bottom: 5px;
+
+}
+p{
+    color: aliceblue;
+}
+
+a{
+    color: blue;
+}
+
+.grst{
+    background-color: rgb(201, 255, 196);
+}
+.grsr{
+    background-color: rgb(182, 255, 175);
+}
+
+.grsb{
+    background-color: rgb(153, 255, 143);
+}
+
+.sh{
+    background-color: rgb(0, 221, 0);
+}
+
+.red{
+    background-color: rgb(173, 0, 29);
+}
+
+.th{
+    background-color: rgb(160, 1, 209);
+}
+
+.yellow{
+    background-color: rgb(230, 214, 1);
+}
+ img {
+  /* Начальное состояние */
+  transition: transform 0.5s ease; /* Настраиваем плавность */
+}
+
+img:hover {
+  /* Сдвигаем по вертикали на 10px вверх */
+  transform: translateY(-5px); 
+  box-shadow: 0 0 20px 5px rgba(127, 47, 255, 0.7); /* Цвет морской волны */
+
+}
+
+ div {
+  /* Начальное состояние */
+  transition: transform 0.5s ease; /* Настраиваем плавность */
+}
+
+div:hover {
+  /* Сдвигаем по вертикали на 10px вверх */
+  transform: translateY(-5px); 
+  box-shadow: 0 0 20px 5px rgba(159, 42, 255, 0.7); /* Цвет морской волны */
+
+}
