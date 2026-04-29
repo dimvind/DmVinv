@@ -78,6 +78,47 @@ img:hover {
 div:hover {
   /* Сдвигаем по вертикали на 10px вверх */
   transform: translateY(-5px); 
+
   box-shadow: 0 0 20px 5px rgba(159, 42, 255, 0.7); /* Цвет морской волны */
 
+}
+
+.greener{
+    background-color: rgb(138, 253, 127);
+}
+
+h3{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.music{
+    height: 100px;
+    color:rgb(255, 255, 255);
+    background-color: rgb(76, 76, 255);
+    transition: 0.3s;
+    transform: rotate(5deg);
+}
+
+.music:hover{
+ background-color: rgb(0, 168, 8);
+ cursor:pointer;
+ width: 200px;
+ transform: rotate(15deg);
+}
+.sub{
+    background-color: black;
+    color: aliceblue;
+}
+a{
+    color: rgb(174, 217, 255);
+    padding-top: 10px;
+}
+
+.id{
+ color: aliceblue;
+ background-color: rgb(0, 0, 136);
+height:100px;
+width: 300px;
+border-radius: 20%;
+cursor: pointer;
 }
