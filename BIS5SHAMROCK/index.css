@@ -134,3 +134,16 @@ cursor: pointer;
   text-decoration: none; /* Убрать подчеркивание */
 transform: rotate(20deg);
 }
+
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 30px; /* Установите нужный вам размер */
+  }
+  .music{
+    height: 150px;
+    width: 350px;
+    font-size: 30px;
+  }
+  
+}
