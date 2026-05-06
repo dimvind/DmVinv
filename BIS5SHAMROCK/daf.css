@@ -1,0 +1,176 @@
+body{
+ background:linear-gradient(white, rgb(255, 254, 206));font-family:Arial, Helvetica, sans-serif;   
+margin: 0;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    color: rgb(255, 255, 255);
+}
+header{
+
+    position: fixed;
+    background:rgb(243, 243, 243);
+ width: 100%;    
+border: 2px;
+border-color: rgb(0, 19, 12);
+ }
+ul{
+    list-style: none;
+}
+h1{
+    text-decoration: none;
+text-align: center;
+padding-top: 10px;
+padding-bottom: 5px;
+
+}
+p{
+    color: aliceblue;
+}
+
+a{
+    color: blue;
+}
+
+.grst{
+    background-color: rgb(253, 255, 231);
+}
+.grsr{
+    background-color: rgb(249, 255, 215);
+}
+
+.grsb{
+    background-color: srgb(252, 255, 214);
+}
+
+.sh{
+    background-color: rgb(40, 202, 0);
+}
+
+
+.red{
+    background-color: rgb(173, 0, 29);
+}
+
+.th{
+    background-color: rgb(160, 1, 209);
+}
+
+.yellow{
+    background-color: rgb(230, 214, 1);
+}
+ img {
+  /* Начальное состояние */
+  transition: transform 0.5s ease; /* Настраиваем плавность */
+}
+
+img:hover {
+  /* Сдвигаем по вертикали на 10px вверх */
+  transform: translateY(-5px); 
+  box-shadow: 0 0 20px 5px rgba(127, 47, 255, 0.7); /* Цвет морской волны */
+
+}
+
+ div {
+  /* Начальное состояние */
+  transition: transform 0.5s ease; /* Настраиваем плавность */
+}
+
+div:hover {
+  /* Сдвигаем по вертикали на 10px вверх */
+  transform: translateY(-5px); 
+
+  box-shadow: 0 0 20px 5px rgba(102, 156, 255, 0.7); /* Цвет морской волны */
+
+}
+
+.greener{
+    background-color: rgb(255, 254, 202);
+}
+
+h3{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.music{
+    height: 100px;
+    color:rgb(255, 255, 255);
+    background-color: rgb(226, 155, 1);
+    transition: 0.3s;
+    transform: rotate(5deg);
+}
+
+.music:hover{
+ background-color: rgb(206, 203, 0);
+ cursor:pointer;
+ width: 200px;
+ transform: rotate(15deg);
+}
+.sub{
+    background-color: black;
+    color: aliceblue;
+}
+a{
+    color: rgb(174, 217, 255);
+    padding-top: 10px;
+}
+
+.id{
+ color: aliceblue;
+ background-color: rgb(0, 0, 136);
+height:100px;
+width: 300px;
+border-radius: 20%;
+cursor: pointer;
+}
+
+
+.notgr{
+    background-color: rgb(254, 255, 222);
+}
+
+.music:active {
+  background-color: rgb(0, 81, 255); /* Ссылка станет красной при нажатии */
+  text-decoration: none; /* Убрать подчеркивание */
+transform: rotate(20deg);
+}
+
+
+@media screen and (max-width: 1100px) {
+  body {
+    font-size: 20px; /* Установите нужный вам размер */
+  }
+  .music{
+    height: 150px;
+    width: 350px;
+    font-size: 30px;
+  }
+  h1{
+    font-size: 25px;
+  }
+  p{
+    font-size: 10px;
+    color: rgb(255, 255, 255);
+  }
+  img{
+    height: 200px;
+  }
+  .bis{
+height: 80px;
+  }
+ 
+}
+
+.hi {
+    margin: 0;
+    font-family: Arial;
+}
+
+.block {
+  background: url(https://dimvind.github.io/DmVinv/BIS5SHAMROCK/shamrock.png) right bottom no-repeat;
+  width: 100px;
+  height: 100px;
+}
