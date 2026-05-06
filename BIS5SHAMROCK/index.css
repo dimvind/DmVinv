@@ -36,19 +36,20 @@ a{
 }
 
 .grst{
-    background-color: rgb(201, 255, 196);
+    background-color: rgb(233, 255, 231);
 }
 .grsr{
-    background-color: rgb(182, 255, 175);
+    background-color: rgb(218, 255, 215);
 }
 
 .grsb{
-    background-color: rgb(153, 255, 143);
+    background-color: rgb(218, 255, 214);
 }
 
 .sh{
-    background-color: rgb(0, 221, 0);
+    background-color: rgb(0, 202, 0);
 }
+
 
 .red{
     background-color: rgb(173, 0, 29);
@@ -87,7 +88,7 @@ div:hover {
 }
 
 .greener{
-    background-color: rgb(138, 253, 127);
+    background-color: rgb(207, 255, 202);
 }
 
 h3{
@@ -97,13 +98,13 @@ h3{
 .music{
     height: 100px;
     color:rgb(255, 255, 255);
-    background-color: rgb(76, 76, 255);
+    background-color: rgb(112, 112, 255);
     transition: 0.3s;
     transform: rotate(5deg);
 }
 
 .music:hover{
- background-color: rgb(0, 168, 8);
+ background-color: rgb(0, 206, 10);
  cursor:pointer;
  width: 200px;
  transform: rotate(15deg);
@@ -128,7 +129,7 @@ cursor: pointer;
 
 
 .notgr{
-    background-color: rgb(152, 255, 152);
+    background-color: rgb(222, 255, 222);
 }
 
 .music:active {
@@ -163,3 +164,13 @@ height: 80px;
  
 }
 
+.hi {
+    margin: 0;
+    font-family: Arial;
+}
+
+.block {
+  background: url(https://dimvind.github.io/DmVinv/BIS5SHAMROCK/shamrock.png) right bottom no-repeat;
+  width: 100px;
+  height: 100px;
+}
